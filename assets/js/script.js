@@ -18,7 +18,7 @@ var cityArray = [];
 function displayWeather() {
     event.preventDefault();
 
-    // makae right column visible
+    // make right column visible
     $("#right-col").removeClass("d-none")
 
     // if search field is not blank
@@ -29,6 +29,9 @@ function displayWeather() {
 }
 
 function currentWeather(city) {
+
+    // make right column visible
+    $("#right-col").removeClass("d-none")
 
     fetch ("https://api.openweathermap.org/data/2.5/weather?q="
         + city + apiKey + "&units=imperial")
@@ -89,26 +92,26 @@ function currentWeather(city) {
                         $(currentUV).removeClass("bg-success")
                     }
                 })
-
+            $("#searchCity").val("")
             forecast(response.id)
 
             // if fetch is succesful
-            if(response.cod==200) {
-                cityArray=JSON.parse(localStorage.getItem("storedCities"));
-                console.log(cityArray)
+            // if(response.cod==200) {
+            //     cityArray=JSON.parse(localStorage.getItem("storedCities"));
+            //     console.log(cityArray)
 
-                if (!cityArray) {
-                    cityArray =[];
-                    cityArray.push(city.toUpperCase());
-                    localStorage.setItem("storedCities",JSON.stringify(cityArray));
-                    addToList(city)
-                }
-                else {
-                    cityArray.push(city.toUpperCase());
-                    localStorage.setItem("storedCities",JSON.stringify(cityArray));
-                    addToList(city)
-                }
-            }
+            //     if (!cityArray) {
+            //         cityArray =[];
+            //         cityArray.push(city.toUpperCase());
+            //         localStorage.setItem("storedCities",JSON.stringify(cityArray));
+            //         // addToList(city)
+            //     }
+            //     else {
+            //         cityArray.push(city.toUpperCase());
+            //         localStorage.setItem("storedCities",JSON.stringify(cityArray));
+            //         // addToList(city)
+            //     }
+            // }
         })
 }
 
@@ -132,39 +135,64 @@ function forecast(cityId) {
             $("#forecastDate"+i).html(date);
             $("#forecastImg"+i).html("<img src="+iconurl+">");
             $("#forecastTemp"+i).html(tempF+"&#8457");
-            $("#forecastHum"+i).html(humidity+"%");
+            $("#forecastHumidity"+i).html(humidity+"%");
         }
 
     });
 }
 
 function addToList(newcity){
-    var listEl= $("<li>"+newcity.toUpperCase()+"</li>");
-    $(listEl).attr("class","list-group-item");
-    $(listEl).attr("data-value",newcity.toUpperCase());
-    $(".list-group").append(listEl);
+    if (searchCity !== "") {
+        newcity = searchCity.val().trim();
+        // currentWeather(city)
+        console.log("hi")
+
+        cityArray.push(newcity.toUpperCase());
+        localStorage.setItem("storedCities",JSON.stringify(cityArray));
+    }
+
+    else {
+        newcity=cityArray[i]
+        console.log(cityArray[i])
+
+        var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
+        $(listEl).attr("class","list-group-item list-group-item-action");
+        $(listEl).attr("data-value",newcity.toUpperCase());
+        $(".list-group").append(listEl);
+        // $("#searchCity").val("")
+    }
+
+
+
 }
 
-function invokePastSearch(event){
+function changeCity(event){
     var liEl=event.target;
-    if (event.target.matches("li")){
+    if (event.target.matches("a")){
         city=liEl.textContent.trim();
         currentWeather(city);
     }
 }
 
+//loads cityArrray from storage, lists each item from the array, displays weather for first item
+
 function loadlastCity(){
-    $("ul").empty();
+
     var cityArray = JSON.parse(localStorage.getItem("storedCities"));
     if(cityArray!==null){
-        cityArray=JSON.parse(localStorage.getItem("storedCities"));
-        for(i=0; i<cityArray.length;i++){
-            addToList(cityArray[i]);
-        }
-        city=cityArray[i-1];
+        // cityArray=JSON.parse(localStorage.getItem("storedCities"));
+        city=cityArray[0];
         currentWeather(city);
-    }
 
+        for(i=0; i<cityArray.length;i++){
+            // console.log(cityArray[i])
+            addToList(cityArray[i]);
+        } 
+    }
+    else {
+        console.log("cityArray is empty")
+        cityArray = []
+    }
 }
 
 //Clear the search history from the page, clear localStorage, reload page
@@ -173,11 +201,11 @@ function clearHistory(event){
     cityArray=[];
     localStorage.clear();
     document.location.reload();
-
 }
 
 $("#searchBtn").on("click",displayWeather);
-$(document).on("click",invokePastSearch);
+$("#searchBtn").on("click",addToList);
+$(document).on("click",changeCity);
 $(window).on("load",loadlastCity);
 $("#clearBtn").on("click",clearHistory);
 
