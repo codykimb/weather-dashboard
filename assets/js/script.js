@@ -71,6 +71,23 @@ function currentWeather(city) {
                 .then(function(response) {
                     console.log(response)
                     $(currentUV).html(response.value);
+
+                    if (parseInt(response.value) < 3) {
+                        $(currentUV).addClass("bg-success")
+                        $(currentUV).removeClass("bg-warning")
+                        $(currentUV).removeClass("bg-danger")
+
+                    }
+                    else if (response.value >= 3 & response.value < 8) {
+                        $(currentUV).addClass("bg-warning")
+                        $(currentUV).removeClass("bg-success")
+                        $(currentUV).removeClass("bg-danger")
+                    }
+                    else if (response.value >= 8) {
+                        $(currentUV).addClass("bg-danger")
+                        $(currentUV).removeClass("bg-warning")
+                        $(currentUV).removeClass("bg-success")
+                    }
                 })
 
             forecast(response.id)
