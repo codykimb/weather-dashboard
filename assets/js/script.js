@@ -53,10 +53,10 @@ function currentWeather(city) {
             // console.log("Date: " + date)
 
             //icon
-            var weathericon = response.weather[0].icon;
-            var iconurl="https://openweathermap.org/img/wn/" + weathericon +"@2x.png";
+            var weatherIcon = response.weather[0].icon;
+            var iconUrl="https://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
-            $(currentCity).html(response.name +"("+date+")" + "<img src="+iconurl+">");
+            $(currentCity).html(response.name +" ("+date+")" + "<img src="+iconUrl+">");
 
             //temperature
             var tempF = Math.round(response.main.temp);
@@ -118,12 +118,12 @@ function forecast(cityId) {
 
             var date = new Date(response.list[((i+1)*8)-1].dt*1000).toLocaleDateString();
             var iconcode = response.list[((i+1)*8)-1].weather[0].icon;
-            var iconurl = "https://openweathermap.org/img/wn/"+iconcode+".png";
+            var iconUrl = "https://openweathermap.org/img/wn/"+iconcode+".png";
             var tempF = response.list[((i+1)*8)-1].main.temp;
             var humidity = response.list[((i+1)*8)-1].main.humidity;
 
             $("#forecastDate"+i).html(date);
-            $("#forecastImg"+i).html("<img src="+iconurl+">");
+            $("#forecastImg"+i).html("<img src="+iconUrl+">");
             $("#forecastTemp"+i).html(tempF+"&#8457");
             $("#forecastHumidity"+i).html(humidity+"%");
         }
@@ -132,30 +132,30 @@ function forecast(cityId) {
 }
 
 // add searched cities to list
-function addToList(newcity){
+function addToList(newCity){
 
     // when a city is searched
     if (searchCity.val() !== "") {
-        newcity = searchCity.val().trim();
+        newCity = searchCity.val().trim();
         // console.log(searchCity.val())
         // console.log(city)
         // currentWeather(city)
-        console.log("New city added: " + newcity)
+        console.log("New city added: " + newCity)
 
-        cityArray.push(newcity.toUpperCase());
+        cityArray.push(newCity.toUpperCase());
         localStorage.setItem("storedCities",JSON.stringify(cityArray));
 
-        var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
+        var listEl= $("<a>"+newCity.toUpperCase()+"</a>");
         $(listEl).attr("class","list-group-item list-group-item-action");
-        $(listEl).attr("data-value",newcity.toUpperCase());
+        $(listEl).attr("data-value",newCity.toUpperCase());
         $(".list-group").append(listEl);
         // $("#searchCity").val("")
     }
     // when there is no search / when page loads
     else {
-        var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
+        var listEl= $("<a>"+newCity.toUpperCase()+"</a>");
         $(listEl).attr("class","list-group-item list-group-item-action");
-        $(listEl).attr("data-value",newcity.toUpperCase());
+        $(listEl).attr("data-value",newCity.toUpperCase());
         $(".list-group").append(listEl);
         // $("#searchCity").val("")
     }
@@ -176,7 +176,7 @@ function loadlastCity(){
     var cityArray = JSON.parse(localStorage.getItem("storedCities"));
 
     if(cityArray!==null){
-        // cityArray=JSON.parse(localStorage.getItem("storedCities"));
+
         city=cityArray[0];
         currentWeather(city);
 
@@ -204,4 +204,3 @@ $("#searchBtn").on("click",addToList);
 $(document).on("click",changeCity);
 $(window).on("load",loadlastCity);
 $("#clearBtn").on("click",clearHistory);
-
