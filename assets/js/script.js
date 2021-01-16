@@ -2,7 +2,7 @@
 var apiKey = "&APPID=5ead3e58beafcafc6afda9c1a5c26a02";
 
 //global variables
-var city=""
+var city = ""
 
 var searchCity = $("#searchCity");
 var searchButton = $("#searchBtn");
@@ -39,7 +39,7 @@ function currentWeather(city) {
             return response.json();
         })
         .then(function(response){
-            console.log(response)
+            // console.log(response)
 
             //date
             var date = new Date(response.dt*1000).toLocaleDateString();
@@ -72,7 +72,7 @@ function currentWeather(city) {
                     return response.json();
                 })
                 .then(function(response) {
-                    console.log(response)
+                    // console.log(response)
                     $(currentUV).html(response.value);
 
                     if (parseInt(response.value) < 3) {
@@ -122,7 +122,7 @@ function forecast(cityId) {
         return response.json();
     })
     .then(function(response){
-        console.log(response)
+        // console.log(response)
 
         for (i=0; i<5; i++) {
 
@@ -142,18 +142,18 @@ function forecast(cityId) {
 }
 
 function addToList(newcity){
-    if (searchCity !== "") {
+
+    // var cityArray = JSON.parse(localStorage.getItem("storedCities"));
+
+    if (searchCity.val() !== "") {
         newcity = searchCity.val().trim();
+        // console.log(searchCity.val())
+        // console.log(cityArray)
         // currentWeather(city)
-        console.log("hi")
+        console.log("new city added")
 
         cityArray.push(newcity.toUpperCase());
         localStorage.setItem("storedCities",JSON.stringify(cityArray));
-    }
-
-    else {
-        newcity=cityArray[i]
-        console.log(cityArray[i])
 
         var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
         $(listEl).attr("class","list-group-item list-group-item-action");
@@ -162,8 +162,13 @@ function addToList(newcity){
         // $("#searchCity").val("")
     }
 
-
-
+    else {
+        var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
+        $(listEl).attr("class","list-group-item list-group-item-action");
+        $(listEl).attr("data-value",newcity.toUpperCase());
+        $(".list-group").append(listEl);
+        // $("#searchCity").val("")
+    }
 }
 
 function changeCity(event){
@@ -179,18 +184,19 @@ function changeCity(event){
 function loadlastCity(){
 
     var cityArray = JSON.parse(localStorage.getItem("storedCities"));
+
     if(cityArray!==null){
         // cityArray=JSON.parse(localStorage.getItem("storedCities"));
         city=cityArray[0];
         currentWeather(city);
 
         for(i=0; i<cityArray.length;i++){
-            // console.log(cityArray[i])
+            console.log(cityArray[i])
             addToList(cityArray[i]);
         } 
     }
     else {
-        console.log("cityArray is empty")
+        // console.log("cityArray is empty")
         cityArray = []
     }
 }
