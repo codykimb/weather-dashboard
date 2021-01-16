@@ -73,7 +73,7 @@ function currentWeather(city) {
             var lat = response.coord.lat
             var lon = response.coord.lon
 
-            fetch ("http://api.openweathermap.org/data/2.5/uvi?"
+            fetch ("https://api.openweathermap.org/data/2.5/uvi?"
                 + "lat=" + lat + "&lon=" + lon + apiKey)
                 .then(function(response) {
                     return response.json();
@@ -106,7 +106,7 @@ function currentWeather(city) {
 
 // create forecast items
 function forecast(cityId) {
-    fetch("http://api.openweathermap.org/data/2.5/forecast?id="
+    fetch("https://api.openweathermap.org/data/2.5/forecast?id="
     + cityId + apiKey + "&units=imperial")
     .then(function(response){
         return response.json();
