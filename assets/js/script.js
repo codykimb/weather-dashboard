@@ -14,6 +14,9 @@ var currentSpeed=$("#windSpeed");
 var currentUV= $("#uvIndex");
 
 var cityArray = [];
+if (localStorage.getItem("storedCities")){
+    cityArray = JSON.parse(localStorage.getItem("storedCities"));
+}
 
 function displayWeather() {
     event.preventDefault();
@@ -147,8 +150,8 @@ function addToList(newcity){
 
     if (searchCity.val() !== "") {
         newcity = searchCity.val().trim();
-        // console.log(searchCity.val())
-        // console.log(cityArray)
+        console.log(searchCity.val())
+        console.log(city)
         // currentWeather(city)
         console.log("new city added")
 
