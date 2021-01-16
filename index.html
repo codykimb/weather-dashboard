@@ -23,10 +23,10 @@
                 <h3>Search for a City:</h3>
                 
                 <div class="input-group mb-3">
-                    <input name="searchTerm" placeholder="Search City or City, State" type="text" autofocus="true" class="input-group-append" />
+                    <input id="searchCity" placeholder="Search City or City, ST" type="text" autofocus="true" class="input-group-append" />
                     <div class="input-group-append">
                         <button id="searchBtn" class="btn btn-primary" type="button" id="button-addon2">
-                            <span class="oi oi-magnifying-glass"></span>
+                            <span class="oi oi-magnifying-glass"></span>                     
                         </button>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <!-- card with empty list -->
 
                 <div class="card">
-                    <button class=" btn btn-primary" type="button" id="clear-history">Clear history</button>
+                    <button class=" btn btn-primary" type="button" id="clearBtn">Clear history</button>
 
                     <ul class="list-group list-group-flush list">
 
@@ -43,14 +43,14 @@
             </div>
 
             <!-- right column for results -->
-            <div class="col-sm-8 mt-2"> 
+            <div class="col-sm-8 mt-2 d-none" id="right-col"> 
                 <div class="row ml-2 border border-dark rounded">
                     <div class="col-sm-12" id="current-weather">
-                        <h3 class="city-name mb-1 mt-2 bolder" id="current-city"></h3>
-                        <p>Temperature:<span class="current" id="temperature"></span></p>
-                        <p>Humidity:<span class="current" id="humidity"></span></p> 
-                        <p>Wind Speed:<span class="current" id="wind-speed"></span></p>
-                        <p>UV index:<span class="current bg-danger rounded py-2 px-2 text-white" id="uv-index"></span></p> 
+                        <h3 class="city-name mb-1 mt-2 bolder" id="currentCity"></h3>
+                        <p>Temperature: <span class="current" id="temperature"></span></p>
+                        <p>Humidity: <span class="current" id="humidity"></span></p> 
+                        <p>Wind Speed: <span class="current" id="windSpeed"></span></p>
+                        <p>UV index: <span class="current bg-danger rounded py-2 px-2 text-white" id="uvIndex"></span></p> 
                     </div>
                 </div>
                 <!-- new row for forecast -->
@@ -60,32 +60,32 @@
                         <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
                             <p id="forecastDate0"></p>
                             <p id="forecastImg0"></p>
-                            <p>Temp:<span id="fTemp0"></span></p>
-                            <p>Humidity:<span id="fHumidity0"></span></p>
+                            <p>Temp:<span id="forecastTemp0"></span></p>
+                            <p>Humidity:<span id="forecastHumidity0"></span></p>
                         </div>
                         <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
                             <p id="forecastDate1"></p>
                             <p id="forecastImg1"></p>
-                            <p>Temperature:<span id="fTemp1"></span></p>
-                            <p>Humidity:<span id="fHumidity1"></span></p>
+                            <p>Temp:<span id="forecastTemp1"></span></p>
+                            <p>Humidity:<span id="forecastHumidity1"></span></p>
                         </div>
                         <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
                             <p id="forecastDate2"></p>
                             <p id="forecastImg2"></p>
-                            <p>Temperature:<span id="fTemp2"></span></p>
-                            <p>Humidity:<span id="fHumidity2"></span></p>
+                            <p>Temp:<span id="forecastTemp2"></span></p>
+                            <p>Humidity:<span id="forecastHumidity2"></span></p>
                         </div>
                         <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded">
                             <p id="forecastDate3"></p>
                             <p id="forecastImg3"></p>
-                            <p>Temperature:<span id="fTemp3"></span></p>
-                            <p>Humidity:<span id="fHumidity3"></span></p>
+                            <p>Temp:<span id="forecastTemp3"></span></p>
+                            <p>Humidity:<span id="forecastHumidity3"></span></p>
                         </div>
                         <div class="col-sm-2 bg-primary forecast text-white ml-2 mb-3 p-2 mt-2 rounded" >
                             <p id="forecastDate4"></p>
                             <p id="forecastImg4"></p>
-                            <p>Temperature:<span id="fTemp4"></span></p>
-                            <p>Humidity:<span id="fHumidity4"></span></p>
+                            <p>Temp:<span id="forecastTemp4"></span></p>
+                            <p>Humidity:<span id="forecastHumidity4"></span></p>
                         </div>
                     </div>
                 </div>

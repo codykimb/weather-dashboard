@@ -1,3 +1,7 @@
 .navbar {
     justify-content: center;
 }
+
+#searchBtn span {
+    background-color: white;
+}
