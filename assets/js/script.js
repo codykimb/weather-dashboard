@@ -14,10 +14,13 @@ var currentSpeed=$("#windSpeed");
 var currentUV= $("#uvIndex");
 
 var cityArray = [];
+
+// if there is data in localStorage set = to cityArray
 if (localStorage.getItem("storedCities")){
     cityArray = JSON.parse(localStorage.getItem("storedCities"));
 }
 
+// display right columns and add currentWeather data
 function displayWeather() {
     event.preventDefault();
 
@@ -31,6 +34,7 @@ function displayWeather() {
     }
 }
 
+// get the weather conditions for the searched city
 function currentWeather(city) {
 
     // make right column visible
@@ -97,27 +101,10 @@ function currentWeather(city) {
                 })
             $("#searchCity").val("")
             forecast(response.id)
-
-            // if fetch is succesful
-            // if(response.cod==200) {
-            //     cityArray=JSON.parse(localStorage.getItem("storedCities"));
-            //     console.log(cityArray)
-
-            //     if (!cityArray) {
-            //         cityArray =[];
-            //         cityArray.push(city.toUpperCase());
-            //         localStorage.setItem("storedCities",JSON.stringify(cityArray));
-            //         // addToList(city)
-            //     }
-            //     else {
-            //         cityArray.push(city.toUpperCase());
-            //         localStorage.setItem("storedCities",JSON.stringify(cityArray));
-            //         // addToList(city)
-            //     }
-            // }
         })
 }
 
+// create forecast items
 function forecast(cityId) {
     fetch("http://api.openweathermap.org/data/2.5/forecast?id="
     + cityId + apiKey + "&units=imperial")
@@ -144,16 +131,16 @@ function forecast(cityId) {
     });
 }
 
+// add searched cities to list
 function addToList(newcity){
 
-    // var cityArray = JSON.parse(localStorage.getItem("storedCities"));
-
+    // when a city is searched
     if (searchCity.val() !== "") {
         newcity = searchCity.val().trim();
-        console.log(searchCity.val())
-        console.log(city)
+        // console.log(searchCity.val())
+        // console.log(city)
         // currentWeather(city)
-        console.log("new city added")
+        console.log("New city added: " + newcity)
 
         cityArray.push(newcity.toUpperCase());
         localStorage.setItem("storedCities",JSON.stringify(cityArray));
@@ -164,7 +151,7 @@ function addToList(newcity){
         $(".list-group").append(listEl);
         // $("#searchCity").val("")
     }
-
+    // when there is no search / when page loads
     else {
         var listEl= $("<a>"+newcity.toUpperCase()+"</a>");
         $(listEl).attr("class","list-group-item list-group-item-action");
@@ -174,6 +161,7 @@ function addToList(newcity){
     }
 }
 
+// when city from the list is clicked
 function changeCity(event){
     var liEl=event.target;
     if (event.target.matches("a")){
@@ -183,7 +171,6 @@ function changeCity(event){
 }
 
 //loads cityArrray from storage, lists each item from the array, displays weather for first item
-
 function loadlastCity(){
 
     var cityArray = JSON.parse(localStorage.getItem("storedCities"));
@@ -194,7 +181,7 @@ function loadlastCity(){
         currentWeather(city);
 
         for(i=0; i<cityArray.length;i++){
-            console.log(cityArray[i])
+            // console.log(cityArray[i])
             addToList(cityArray[i]);
         } 
     }
