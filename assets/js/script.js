@@ -46,61 +46,72 @@ function currentWeather(city) {
             return response.json();
         })
         .then(function(response){
-            // console.log(response)
+            console.log(response)
+            if (response.cod === 200) {
+                //date
+                var date = new Date(response.dt*1000).toLocaleDateString();
+                // console.log("Date: " + date)
 
-            //date
-            var date = new Date(response.dt*1000).toLocaleDateString();
-            // console.log("Date: " + date)
+                //icon
+                var weatherIcon = response.weather[0].icon;
+                var iconUrl="https://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
-            //icon
-            var weatherIcon = response.weather[0].icon;
-            var iconUrl="https://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
+                $(currentCity).html(response.name +" ("+date+")" + "<img src="+iconUrl+">");
 
-            $(currentCity).html(response.name +" ("+date+")" + "<img src="+iconUrl+">");
+                //temperature
+                var tempF = Math.round(response.main.temp);
+                $(currentTemp).html(tempF +"°F");
 
-            //temperature
-            var tempF = Math.round(response.main.temp);
-            $(currentTemp).html(tempF +"°F");
+                //humidity
+                $(currentHum).html(response.main.humidity+"%");
 
-            //humidity
-            $(currentHum).html(response.main.humidity+"%");
+                //wind speed
+                var windspeed = response.wind.speed.toFixed(2);
+                $(currentSpeed).html(windspeed +" MPH");
 
-            //wind speed
-            var windspeed = response.wind.speed.toFixed(2);
-            $(currentSpeed).html(windspeed +" MPH");
+                //UV index
+                var lat = response.coord.lat
+                var lon = response.coord.lon
 
-            //UV index
-            var lat = response.coord.lat
-            var lon = response.coord.lon
+                fetch ("https://api.openweathermap.org/data/2.5/uvi?"
+                    + "lat=" + lat + "&lon=" + lon + apiKey)
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(response) {
+                        // console.log(response)
+                        $(currentUV).html(response.value);
 
-            fetch ("https://api.openweathermap.org/data/2.5/uvi?"
-                + "lat=" + lat + "&lon=" + lon + apiKey)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(response) {
-                    // console.log(response)
-                    $(currentUV).html(response.value);
+                        if (parseInt(response.value) < 3) {
+                            $(currentUV).addClass("bg-success")
+                            $(currentUV).removeClass("bg-warning")
+                            $(currentUV).removeClass("bg-danger")
 
-                    if (parseInt(response.value) < 3) {
-                        $(currentUV).addClass("bg-success")
-                        $(currentUV).removeClass("bg-warning")
-                        $(currentUV).removeClass("bg-danger")
-
-                    }
-                    else if (response.value >= 3 & response.value < 8) {
-                        $(currentUV).addClass("bg-warning")
-                        $(currentUV).removeClass("bg-success")
-                        $(currentUV).removeClass("bg-danger")
-                    }
-                    else if (response.value >= 8) {
-                        $(currentUV).addClass("bg-danger")
-                        $(currentUV).removeClass("bg-warning")
-                        $(currentUV).removeClass("bg-success")
-                    }
-                })
-            $("#searchCity").val("")
-            forecast(response.id)
+                        }
+                        else if (response.value >= 3 & response.value < 8) {
+                            $(currentUV).addClass("bg-warning")
+                            $(currentUV).removeClass("bg-success")
+                            $(currentUV).removeClass("bg-danger")
+                        }
+                        else if (response.value >= 8) {
+                            $(currentUV).addClass("bg-danger")
+                            $(currentUV).removeClass("bg-warning")
+                            $(currentUV).removeClass("bg-success")
+                        }
+                    })
+                $("#searchCity").val("")
+                forecast(response.id)
+            }
+            //404 error
+            else {
+                alert("404 ERROR - PLEASE START OVER");
+                // cityArray.pop();
+                // console.log(cityArray);
+                // localStorage.setItem("storedCities",JSON.stringify(cityArray));
+                cityArray=[];
+                localStorage.clear();
+                document.location.reload();
+            }
         })
 }
 
@@ -138,6 +149,7 @@ function addToList(newCity){
     if (searchCity.val() !== "") {
         newCity = searchCity.val().trim();
         
+        //if the city is already added leave function
         for (i=0; i<cityArray.length; i++) {
             if (newCity.toUpperCase() === cityArray[i]) {
                 return
@@ -145,7 +157,6 @@ function addToList(newCity){
         }
 
         console.log("New city added: " + newCity)
-
         cityArray.push(newCity.toUpperCase());
         localStorage.setItem("storedCities",JSON.stringify(cityArray));
 
