@@ -137,9 +137,13 @@ function addToList(newCity){
     // when a city is searched
     if (searchCity.val() !== "") {
         newCity = searchCity.val().trim();
-        // console.log(searchCity.val())
-        // console.log(city)
-        // currentWeather(city)
+        
+        for (i=0; i<cityArray.length; i++) {
+            if (newCity.toUpperCase() === cityArray[i]) {
+                return
+            }
+        }
+
         console.log("New city added: " + newCity)
 
         cityArray.push(newCity.toUpperCase());
