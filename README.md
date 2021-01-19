@@ -7,13 +7,13 @@ GITHUB REPOSITORY:
 https://github.com/codykimb/weather-dashboard  
   
 DESCRIPTION:  
-This Weather Dashboard lets the user search for a city  
-and returns the current weather conditions of that city -  
-including temperature, humidity, wind speed and UV index -  
-along with a 5 day forcast. The UV index is color coded -  
-green for low risk, yellow for moderate and red for high.  
-The city that is searched is added to the list on the left  
-side and saved in local storage. Clicking the Clear History  
+This Weather Dashboard lets the user search for a city
+and returns the current weather conditions of that city -
+including temperature, humidity, wind speed and UV index -
+along with a 5 day forcast. The UV index is color coded -
+green for low risk, yellow for moderate and red for high.
+The city that is searched is added to the list on the left
+side and saved in local storage. Clicking the Clear History
 button will remove all the previously searched cities.
   
 SCREENSHOT:  
